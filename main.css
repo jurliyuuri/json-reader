@@ -8,6 +8,11 @@
   border-bottom: 1px rgba(77, 145, 179, 0.3) solid;
 }
 
+.header {
+  text-align: center; 
+  padding: 0 0 40px 0;
+}
+
 .outer {
   width: 100%;
   max-width: 800px;

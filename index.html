@@ -9,14 +9,15 @@
 </head>
 <body>
     <div class="outermost" >
-        <div style="text-align: center; padding: 0 0 40px 0">
+        <div class="header">
             <h1>OTM-JSON Online Reader</h1>
-            <input type="url" placeholder="http://triad/primus.json" id="url" size="60"/><input type="button" value="load" onclick="main(document.getElementById('url').value)"><br>
-            <input type="button" value="ai'r" onclick="main('http:/'+'/jurliyuuri.com/lin-marn/air_compressed.json')">
+            <input type="url" placeholder="http://hoge.github.io/lang/dict.json" id="url" size="60"/>
+            <input type="button" value="load" onclick="main(document.getElementById('url').value)">
+            <br>
+            <input type="button" value="ai'r" onclick="main('http:/'+'/jurliyuuri.com/ail/air_compressed.json')">
             <input type="button" value="takan" onclick="main('http:/'+'/jurliyuuri.com/takan_cen/皇言集書.json')">
             <input type="button" value="bhat" onclick="main('http:/'+'/jurliyuuri.com/bhaataan/bhat.json')">
-            <input type="button" value="pmcf" onclick="main('http:/'+'/jurliyuuri.com/pmcp_dictionary/pmcf_dict.json')"><br>
-            <input type="button" value="listarme" onclick="main('http:/'+'/zohen0.github.io/xaledunomyn-dito/dictionary/xaledunomyn-dito.json')">
+            <input type="button" value="pmcf" onclick="main('http:/'+'/jurliyuuri.com/pmcp_dictionary/pmcf_dict.json')">
             <input type="button" value="rkharvanur" onclick="main('https:/'+'/raw.githubusercontent.com/SkurlavenijaMavija/rkharvanur/master/%E8%9E%BA%E6%97%A5%E8%BE%9E%E5%85%B8.json')">
         </div>
         <div class="outer" id="outer"></div>
