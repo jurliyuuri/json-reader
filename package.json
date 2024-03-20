@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": ".",
+  "homepage": "http://jurliyuuri.com/json-reader/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && pnpm lint:fix && rm -rf docs && vite build",

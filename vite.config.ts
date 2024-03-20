@@ -6,10 +6,6 @@ export default defineConfig({
   plugins: [react()],
   publicDir: false,
   build: {
-    rollupOptions: {
-      output: {
-        dir: 'docs'
-      }
-    }
+    outDir: 'docs'
   },
 })
