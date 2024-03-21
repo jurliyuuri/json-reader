@@ -2,12 +2,12 @@ import { Language, dictionaryData } from "../data/dictionaryData"
 
 type Props = {
   lang: Language,
-  readUrlSetter: React.Dispatch<React.SetStateAction<string>>
+  setReadUrl: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Button = ({lang, readUrlSetter}: Props) => {
+const Button = ({ lang, setReadUrl }: Props) => {
   return (
-    <button onClick={() =>{readUrlSetter(dictionaryData[lang]["url"])}}>
+    <button onClick={() => { setReadUrl(dictionaryData[lang]["url"]) }}>
       {lang}
     </button>
   )

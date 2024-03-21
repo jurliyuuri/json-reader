@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import image from '../assets/share-chain.svg'
 import '../styles/Share.css'
 
@@ -6,13 +7,24 @@ type Props = {
 }
 
 const Share = ({ readUrl }: Props) => {
+  const [urlToCopy, setUrlToCopy] = useState("")
   return (
-    <img src={image} className='share' onClick={() => {
-      navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}?url=${readUrl}`).then(
-        () => console.log("successfully copied!"),
-        () => { }
-      )
-    }} />
+    <>
+      <img src={image} className='share' onClick={() => {
+        const shareUrl = `${window.location.protocol}//${window.location.host}${readUrl ? `?url=${readUrl}` : ""}`
+        try {
+          throw new Error()
+          navigator.clipboard.writeText(shareUrl).then(
+            () => console.log("successfully copied!")
+          )
+        } catch {
+          // jurliyuuri.comは現在httpなので必ずこっちに来る
+          setUrlToCopy(shareUrl)
+          console.log("successful fallback!")
+        }
+      }} />
+      {urlToCopy && <span> url: <a href={urlToCopy}>{urlToCopy}</a></span>}
+    </>
   )
 }
 

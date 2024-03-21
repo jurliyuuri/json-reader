@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react'
 import './styles/App.css'
 import Button from './components/Button';
 import Entry from './components/Entry';
+import Loader from './components/Loader';
 import Share from './components/Share';
+import UrlForm from './components/UrlForm';
 import { Dictionary, sampleJson } from './models/dictionary';
 
 function App() {
@@ -21,9 +23,20 @@ function App() {
       const dictionary = await fetch(readUrl)
         .then(
           (resolve) => { return resolve.json() as unknown as Dictionary },
-          (reject) => {
-            alert(`cannot obtain the dictionary: ${reject}`)
-            return sampleJson
+          async (reject) => {
+            // https://だった場合、http://を試す
+            const possibllyRightUrl = `http://${readUrl.slice(8)}`
+            const dictionaryWithHTTP = await fetch(possibllyRightUrl).then(
+              (res) => {
+                setInputUrl(possibllyRightUrl)
+                return res.json() as unknown as Dictionary
+              },
+              (_) => {
+                alert(`cannot obtain the dictionary: ${reject}`)
+                return sampleJson
+              }
+            )
+            return dictionaryWithHTTP
           }
         )
       setReadDict(dictionary)
@@ -34,24 +47,24 @@ function App() {
   return (
     <>
       <div className='header'>
-        <h1>OTM-JSON Online Reader</h1>
+        <h1><a href='./'>OTM-JSON Online Reader</a></h1>
         <div>
-          <input id="url" value={inputUrl} size={40} placeholder='http://piyo.github.io/lang/dict.json'
-            onChange={(event) => { setInputUrl(event.target.value) }} />
-          <button value="load" onClick={() => { setReadUrl(encodeURI(inputUrl)) }}>load</button>
+          <UrlForm inputUrl={inputUrl} setInputUrl={setInputUrl} setReadUrl={setReadUrl} />
+          <Loader inputUrl={inputUrl} setInputUrl={setInputUrl} setReadUrl={setReadUrl} />
         </div>
         <div>
-          <Button lang="ail" readUrlSetter={setReadUrl} />
-          <Button lang="takan" readUrlSetter={setReadUrl} />
-          <Button lang="bhat" readUrlSetter={setReadUrl} />
-          <Button lang="pmcf" readUrlSetter={setReadUrl} />
+          <Button lang="ail" setReadUrl={setReadUrl} />
+          <Button lang="takan" setReadUrl={setReadUrl} />
+          <Button lang="bhat" setReadUrl={setReadUrl} />
+          <Button lang="pmcf" setReadUrl={setReadUrl} />
           <br />
-          <Button lang="calass" readUrlSetter={setReadUrl} />
-          <Button lang="vic" readUrlSetter={setReadUrl} />
-          <Button lang="ʁa:v" readUrlSetter={setReadUrl} />
+          <Button lang="calass" setReadUrl={setReadUrl} />
+          <Button lang="vic" setReadUrl={setReadUrl} />
+          <Button lang="ʁa:v" setReadUrl={setReadUrl} />
+          <br />
           <Share readUrl={readUrl} />
         </div>
-      </div>
+      </div >
       <div className='outer'>
         <Entry readDict={readDict} />
       </div>

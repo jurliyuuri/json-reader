@@ -57,7 +57,10 @@ export const sampleJson: Dictionary = {
       text: "ブラウザのページ内検索で頑張って探しましょう"
     }, {
       title: "辞書ページを共有したいときは",
-      text: "共有したい辞書ページを読み込んで、入力欄の下の共有アイコンを押すとクリップボードにURLがコピーされます。"
+      text: "共有したい辞書ページを読み込んで、入力欄の下の共有アイコンを押すとリンクが表示されるので、それをコピーしてください。"
+    }, {
+      title: "問い合わせ先",
+      text: "https://github.com/jurliyuuri/json-reader/issues/"
     }],
     variations: [],
     relations: []
