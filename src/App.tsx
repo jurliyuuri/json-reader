@@ -31,7 +31,7 @@ function App() {
                 setInputUrl(possibllyRightUrl)
                 return res.json() as unknown as Dictionary
               },
-              (_) => {
+              (_rej) => {
                 alert(`cannot obtain the dictionary: ${reject}`)
                 return sampleJson
               }
