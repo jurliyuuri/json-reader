@@ -11,7 +11,7 @@ const Share = ({ readUrl }: Props) => {
   return (
     <>
       <img src={image} className='share' onClick={() => {
-        const shareUrl = `${window.location.protocol}//${window.location.host}${readUrl ? `?url=${readUrl}` : ""}`
+        const shareUrl = `${window.location.protocol}//${window.location.host}/json-reader/${readUrl ? `?url=${readUrl}` : ""}`
         try {
           navigator.clipboard.writeText(shareUrl).then(
             () => console.log("successfully copied!")
