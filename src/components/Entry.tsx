@@ -1,6 +1,6 @@
 import '@/styles/Entry.css'
 import { useState } from 'react';
-import { Dictionary, Word } from "@/models/dictionary"
+import { Dictionary, Word } from "../utils/dictionary"
 
 const Form = (props: { word: Word, permalinkId: string }) => {
   const [show, setShow] = useState(false)

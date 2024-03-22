@@ -27,16 +27,8 @@ export type Word = {
 }
 
 export type Dictionary = {
-  words: Word[],
-} & Partial<{
-  zpdic: {
-    alphabetOrder: string,
-    plainInformationTitles: string,
-    informationTitleOrder: null | string,
-    defaultWord: Word
-  },
-  [key: string | number]: unknown
-}>
+  words: Word[]
+}
 
 export const sampleJson: Dictionary = {
   words: [{
@@ -65,18 +57,4 @@ export const sampleJson: Dictionary = {
     variations: [],
     relations: []
   },]
-}
-
-export const sampleJsonVer2: Dictionary = {
-  words: [{
-    entry: {
-      id: 1,
-      form: ""
-    },
-    tags: [],
-    translations: [],
-    variations: [],
-    contents: [],
-    relations: []
-  }]
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import image from '@/assets/share-chain.svg'
-import '@/styles/Share.css'
+import image from '../assets/share-chain.svg'
+import '../styles/Share.css'
 
 type Props = {
   readUrl: string
