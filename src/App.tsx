@@ -5,7 +5,7 @@ import Entry from '@/components/Entry';
 import Loader from '@/components/Loader';
 import Share from '@/components/Share';
 import UrlForm from '@/components/UrlForm';
-import { Dictionary, sampleJson } from '@/models/dictionary';
+import { Dictionary, sampleJson } from '@/utils/dictionary';
 
 function App() {
   const queryParams = new URLSearchParams(window.location.search.slice(1))
