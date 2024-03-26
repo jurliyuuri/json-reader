@@ -32,7 +32,7 @@ function App() {
   }, [readUrl])
 
   return (
-    <>
+    <div>
       <div className='header'>
         <h1><a href='./'>OTM-JSON Online Reader</a></h1>
         <div>
@@ -55,7 +55,7 @@ function App() {
       <div className='outer'>
         <Entry readDict={readDict} />
       </div>
-    </>
+    </div>
   )
 }
 
