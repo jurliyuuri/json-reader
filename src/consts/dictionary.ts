@@ -26,12 +26,10 @@ export type Word = {
   [key: string]: unknown
 }
 
-export type Dictionary = {
-  words: Word[]
-}
+export type Dictionary = Word[]
 
-export const sampleJson: Dictionary = {
-  words: [{
+export const sampleDictionary: Dictionary = [
+  {
     entry: {
       id: 1,
       form: "OTM-JSON Online Reader"
@@ -56,5 +54,5 @@ export const sampleJson: Dictionary = {
     }],
     variations: [],
     relations: []
-  },]
-}
+  }
+]

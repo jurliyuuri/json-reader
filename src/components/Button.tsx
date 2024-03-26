@@ -1,4 +1,4 @@
-import { Language, dictionaryData } from "../data/dictionaryData"
+import { Language, dictionaryData } from "../consts/dictionaryData"
 
 type Props = {
   lang: Language,

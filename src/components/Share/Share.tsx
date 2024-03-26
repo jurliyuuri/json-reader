@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import image from '../assets/share-chain.svg'
-import '../styles/Share.css'
+import image from '@/assets/share-chain.svg'
+import './Share.css'
 
 type Props = {
   readUrl: string
@@ -9,7 +9,7 @@ type Props = {
 const Share = ({ readUrl }: Props) => {
   const [urlToCopy, setUrlToCopy] = useState("")
   return (
-    <>
+    <div>
       <img src={image} className='share' onClick={() => {
         const shareUrl = `${window.location.protocol}//${window.location.host}/json-reader/${readUrl ? `?url=${readUrl}` : ""}`
         try {
@@ -23,7 +23,7 @@ const Share = ({ readUrl }: Props) => {
         }
       }} />
       {urlToCopy && <span> url: <a href={urlToCopy}>{urlToCopy}</a></span>}
-    </>
+    </div>
   )
 }
 

@@ -1,6 +1,6 @@
-import '@/styles/Entry.css'
+import './Entry.css'
 import { useState } from 'react';
-import { Dictionary, Word } from "../utils/dictionary"
+import { Dictionary, Word } from "../../consts/dictionary"
 
 const Form = (props: { word: Word, permalinkId: string }) => {
   const [show, setShow] = useState(false)
@@ -66,7 +66,7 @@ const Relations = (props: { word: Word, permalinkId: string }) => {
 const Entry = (props: { readDict: Dictionary }) => {
   return (
     <>
-      {props.readDict.words.map((word) => {
+      {props.readDict.map((word) => {
         const permalinkId = `#id${word.entry.id}_${word.entry.form.split(" ").join("_")}`
         return (
           <div className='word' key={word.entry.id}>

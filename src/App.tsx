@@ -1,45 +1,32 @@
 import { useState, useEffect } from 'react'
-import './styles/App.css'
+import './App.css'
 import Button from './components/Button';
-import Entry from './components/Entry';
-import Loader from './components/Loader';
-import Share from './components/Share';
+import Entry from './components/Entry/Entry';
+import Share from './components/Share/Share';
 import UrlForm from './components/UrlForm';
-import { Dictionary, sampleJson } from './utils/dictionary';
+import { sampleDictionary } from './consts/dictionary';
+import Search from './components/Search/Search';
 
 function App() {
   const queryParams = new URLSearchParams(window.location.search.slice(1))
-  const queryReadUrl = queryParams.get("url")
-  const queryReadUrlNonNull = queryReadUrl ? decodeURIComponent(queryReadUrl) : ""
+  const nullableQueryReadUrl = queryParams.get("url")
+  const queryReadUrl = nullableQueryReadUrl ? decodeURIComponent(nullableQueryReadUrl) : ""
 
-  const [inputUrl, setInputUrl] = useState(queryReadUrlNonNull)
-  const [readUrl, setReadUrl] = useState(queryReadUrlNonNull)
-  const [readDict, setReadDict] = useState(sampleJson)
+  const [readUrl, setReadUrl] = useState(queryReadUrl)
+  const [readDict, setReadDict] = useState(sampleDictionary)
+  const [searchRegex, setSearchRegex] = useState("")
 
   useEffect(() => {
     console.log(`readUrl is now set to be ${readUrl}`)
     const getDictionary = async () => {
-      if (readUrl === "") return sampleJson
-      const dictionary = await fetch(readUrl)
-        .then(
-          (resolve) => { return resolve.json() as unknown as Dictionary },
-          async (reject) => {
-            // https://だった場合、http://を試す
-            const possibllyRightUrl = `http://${readUrl.slice(8)}`
-            const dictionaryWithHTTP = await fetch(possibllyRightUrl).then(
-              (res) => {
-                setInputUrl(possibllyRightUrl)
-                return res.json() as unknown as Dictionary
-              },
-              (_rej) => {
-                alert(`cannot obtain the dictionary: ${reject}`)
-                return sampleJson
-              }
-            )
-            return dictionaryWithHTTP
-          }
-        )
-      setReadDict(dictionary)
+      if (readUrl === "") setReadDict(sampleDictionary)
+      const fetchDictionary = await fetch(readUrl)
+      const dirtyDictionary = await fetchDictionary.json()
+      if (!Array.isArray(dirtyDictionary.words)) {
+        setReadDict(sampleDictionary)
+        throw new Error('dictionary has no words property')
+      }
+      setReadDict(dirtyDictionary.words)
     }
     getDictionary()
   }, [readUrl])
@@ -49,8 +36,7 @@ function App() {
       <div className='header'>
         <h1><a href='./'>OTM-JSON Online Reader</a></h1>
         <div>
-          <UrlForm inputUrl={inputUrl} setInputUrl={setInputUrl} setReadUrl={setReadUrl} />
-          <Loader inputUrl={inputUrl} setInputUrl={setInputUrl} setReadUrl={setReadUrl} />
+          <UrlForm queryReadUrl={queryReadUrl} setReadUrl={setReadUrl} />
         </div>
         <div>
           <Button lang="ail" setReadUrl={setReadUrl} />
@@ -62,6 +48,7 @@ function App() {
           <Button lang="vic" setReadUrl={setReadUrl} />
           <Button lang="ʁa:v" setReadUrl={setReadUrl} />
           <br />
+          <Search setSearchRegex={setSearchRegex} />
           <Share readUrl={readUrl} />
         </div>
       </div >
