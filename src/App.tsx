@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     console.log(`readUrl is now set to be ${readUrl}`)
     const getDictionary = async () => {
-      if (readUrl === "") setReadDict(sampleDictionary)
+      if (readUrl === '') setReadDict(sampleDictionary)
       const fetchDictionary = await fetch(readUrl)
       const dirtyDictionary = await fetchDictionary.json()
       if (!Array.isArray(dirtyDictionary.words)) {
@@ -39,16 +39,16 @@ function App() {
           <UrlForm queryReadUrl={queryReadUrl} setReadUrl={setReadUrl} />
         </div>
         <div>
-          <Button lang="ail" setReadUrl={setReadUrl} />
-          <Button lang="takan" setReadUrl={setReadUrl} />
-          <Button lang="bhat" setReadUrl={setReadUrl} />
-          <Button lang="pmcf" setReadUrl={setReadUrl} />
+          <Button lang='ail' setReadUrl={setReadUrl} />
+          <Button lang='takan' setReadUrl={setReadUrl} />
+          <Button lang='bhat' setReadUrl={setReadUrl} />
+          <Button lang='pmcf' setReadUrl={setReadUrl} />
           <br />
-          <Button lang="calass" setReadUrl={setReadUrl} />
-          <Button lang="vic" setReadUrl={setReadUrl} />
-          <Button lang="ʁa:v" setReadUrl={setReadUrl} />
+          <Button lang='calass' setReadUrl={setReadUrl} />
+          <Button lang='vic' setReadUrl={setReadUrl} />
+          <Button lang='ʁa:v' setReadUrl={setReadUrl} />
           <br />
-          <Search setSearchRegex={setSearchRegex} />
+          <Search option={querySearchType} setSearchRegex={setSearchRegex} />
           <Share readUrl={readUrl} />
         </div>
       </div >
