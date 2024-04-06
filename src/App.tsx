@@ -43,8 +43,7 @@ function App() {
         <UrlForm queryReadUrl={queryUrl} setReadUrl={setReadUrl} />
         <Shortcut setReadUrl={setReadUrl} />
         <div>
-          {/* <Search searchOption={searchOption} searchRange={searchRange}
-            setSearchRegex={setSearchRegex} setSearchOption={setSearchOption} setSearchRange={setSearchRange} /> */}
+          <Search setSearchRegex={setSearchRegex}  />
           <Share readUrl={readUrl} />
         </div>
       </div>
