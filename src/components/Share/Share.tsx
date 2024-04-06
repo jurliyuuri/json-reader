@@ -7,18 +7,18 @@ type Props = {
 }
 
 const Share = ({ readUrl }: Props) => {
-  const [urlToCopy, setUrlToCopy] = useState("")
+  const [urlToCopy, setUrlToCopy] = useState('')
 
   const handleClick = () => {
-    const shareUrl = `${window.location.protocol}//${window.location.host}/json-reader/${readUrl ? `?url=${readUrl}` : ""}`
+    const shareUrl = `${window.location.protocol}//${window.location.host}/json-reader/${readUrl ? `?url=${readUrl}` : ''}`
     try {
       navigator.clipboard.writeText(shareUrl).then(
-        () => console.log("successfully copied!")
+        () => console.log('successfully copied!')
       )
     } catch {
       // jurliyuuri.comは現在httpなので必ずこっちに来る
       setUrlToCopy(shareUrl)
-      console.log("successful fallback!")
+      console.log('successful fallback!')
     }
   }
 

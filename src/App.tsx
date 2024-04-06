@@ -1,60 +1,54 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import Button from './components/Button';
-import Entry from './components/Entry/Entry';
-import Share from './components/Share/Share';
-import UrlForm from './components/UrlForm';
-import { sampleDictionary } from './consts/dictionary';
-import Search from './components/Search/Search';
+import { useNavigate } from 'react-router-dom'
+import Entry from './components/Entry/Entry'
+import Search from './components/Search/Search'
+import Share from './components/Share/Share'
+import Shortcut from './components/Shortcut'
+import UrlForm from './components/UrlForm'
+import { sampleDictionary } from './consts/dictionary'
+import { castAsSearchOption, castAsSearchRange } from './hooks/caster'
+import { getDictionary } from './hooks/getDictionary'
+import parseQuery from './hooks/queryParser'
 
 function App() {
   const queryParams = new URLSearchParams(window.location.search.slice(1))
-  const nullableQueryReadUrl = queryParams.get("url")
-  const queryReadUrl = nullableQueryReadUrl ? decodeURIComponent(nullableQueryReadUrl) : ""
+  const parsedQuery = parseQuery(queryParams)
+  const [queryUrl, queryText, queryOption, queryRange] = [
+    parsedQuery.url,
+    parsedQuery.text,
+    castAsSearchOption(parsedQuery.option),
+    castAsSearchRange(parsedQuery.range)
+  ]
 
-  const [readUrl, setReadUrl] = useState(queryReadUrl)
+  const [readUrl, setReadUrl] = useState(queryUrl)
   const [readDict, setReadDict] = useState(sampleDictionary)
-  const [searchRegex, setSearchRegex] = useState("")
+  const [searchText, setSearchRegex] = useState(queryText)
+  const [searchOption, setSearchOption] = useState(queryOption)
+  const [searchRange, setSearchRange] = useState(queryRange)
 
   useEffect(() => {
-    console.log(`readUrl is now set to be ${readUrl}`)
-    const getDictionary = async () => {
-      if (readUrl === '') setReadDict(sampleDictionary)
-      const fetchDictionary = await fetch(readUrl)
-      const dirtyDictionary = await fetchDictionary.json()
-      if (!Array.isArray(dirtyDictionary.words)) {
-        setReadDict(sampleDictionary)
-        throw new Error('dictionary has no words property')
-      }
-      setReadDict(dirtyDictionary.words)
-    }
-    getDictionary()
-  }, [readUrl])
+    getDictionary(readUrl, setReadDict)
+  }, [readUrl, setReadDict])
+
+  const navigate = useNavigate()
+  useEffect(() => {
+    navigate(`/?url=${readUrl}&text=${searchText}&option=${searchOption}&range=${searchRange}`)
+  }, [readUrl, searchText, searchOption, searchRange, navigate])
 
   return (
     <div>
       <div className='header'>
         <h1><a href='./'>OTM-JSON Online Reader</a></h1>
+        <UrlForm queryReadUrl={queryUrl} setReadUrl={setReadUrl} />
+        <Shortcut setReadUrl={setReadUrl} />
         <div>
-          <UrlForm queryReadUrl={queryReadUrl} setReadUrl={setReadUrl} />
-        </div>
-        <div>
-          <Button lang='ail' setReadUrl={setReadUrl} />
-          <Button lang='takan' setReadUrl={setReadUrl} />
-          <Button lang='bhat' setReadUrl={setReadUrl} />
-          <Button lang='pmcf' setReadUrl={setReadUrl} />
-          <br />
-          <Button lang='calass' setReadUrl={setReadUrl} />
-          <Button lang='vic' setReadUrl={setReadUrl} />
-          <Button lang='ʁa:v' setReadUrl={setReadUrl} />
-          <br />
-          <Search option={querySearchType} setSearchRegex={setSearchRegex} />
+          {/* <Search searchOption={searchOption} searchRange={searchRange}
+            setSearchRegex={setSearchRegex} setSearchOption={setSearchOption} setSearchRange={setSearchRange} /> */}
           <Share readUrl={readUrl} />
         </div>
-      </div >
-      <div className='outer'>
-        <Entry readDict={readDict} />
       </div>
+      <Entry readDict={readDict} text={searchText} option={searchOption} range={searchRange} />
     </div>
   )
 }
