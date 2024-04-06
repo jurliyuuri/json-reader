@@ -22,16 +22,16 @@ const Search = ({ setSearchRegex }: Props) => {
     }
   }
 
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault()
+    setSearchRegex(convertQueryToSearchRegex(query))
+  }
+
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <fieldset>
         <input type="text" value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter') {
-              setSearchRegex(convertQueryToSearchRegex(query))
-            }
-          }} />
+          onChange={(event) => setQuery(event.target.value)} />
         <br />
         <input type="radio" name="forward" checked={searchOption === 'forward'} onChange={() => setSearchOption('forward')} />
         <label htmlFor="forward" onClick={() => setSearchOption('forward')}>前方</label>
