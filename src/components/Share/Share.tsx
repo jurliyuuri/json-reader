@@ -1,22 +1,24 @@
 import { useState } from 'react'
+import generateShareUrl from './generateShareUrl'
 import image from '@/assets/share-chain.svg'
 import './Share.css'
+import { SearchParams } from '@/consts/searchParams'
 
 type Props = {
-  readUrl: string
+  readUrl: string,
+  searchParams: SearchParams
 }
 
-const Share = ({ readUrl }: Props) => {
+const Share = ({ readUrl, searchParams }: Props) => {
   const [urlToCopy, setUrlToCopy] = useState('')
 
   const handleClick = () => {
-    const shareUrl = `${window.location.protocol}//${window.location.host}/json-reader/${readUrl ? `?url=${readUrl}` : ''}`
+    const shareUrl = generateShareUrl(readUrl, searchParams)
     try {
       navigator.clipboard.writeText(shareUrl).then(
         () => console.log('successfully copied!')
       )
     } catch {
-      // jurliyuuri.comは現在httpなので必ずこっちに来る
       setUrlToCopy(shareUrl)
       console.log('successful fallback!')
     }

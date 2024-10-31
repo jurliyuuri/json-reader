@@ -49,7 +49,7 @@ function App() {
         <Shortcut setReadUrl={setReadUrl} />
         <div>
           <Search searchParams={searchParams} setSearchParams={setSearchParams}  />
-          <Share readUrl={readUrl} />
+          <Share readUrl={readUrl} searchParams={searchParams}/>
         </div>
       </div>
       <Entry readDict={readDict} params={searchParams} />
