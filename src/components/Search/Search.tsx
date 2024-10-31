@@ -1,30 +1,18 @@
 import { useState } from 'react'
 import './Search.css'
+import { convertToSearchParams, SearchParams } from '@/consts/searchParams'
 
 type Props = {
-  setSearchRegex: React.Dispatch<React.SetStateAction<string>>
+  searchParams: SearchParams,
+  setSearchParams: React.Dispatch<React.SetStateAction<SearchParams>>
 }
 
-type SearchOption = 'forward' | 'partial' | 'regex'
-
-const Search = ({ setSearchRegex }: Props) => {
-  const [query, setQuery] = useState("")
-  const [searchOption, setSearchOption] = useState<SearchOption>('forward')
-
-  const convertQueryToSearchRegex = (queryString: string) => {
-    if (searchOption === 'forward') {
-      return `^${queryString}`
-    } else if (searchOption === 'partial') {
-      return queryString
-    } else {
-      // searchOption is definitely 'regex'
-      return queryString
-    }
-  }
+const Search = ({ searchParams, setSearchParams }: Props) => {
+  const [query, setQuery] = useState(searchParams.text)
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    setSearchRegex(convertQueryToSearchRegex(query))
+    setSearchParams(convertToSearchParams(query, searchParams.option, searchParams.range))
   }
 
   return (
@@ -33,12 +21,12 @@ const Search = ({ setSearchRegex }: Props) => {
         <input type="text" value={query}
           onChange={(event) => setQuery(event.target.value)} />
         <br />
-        <input type="radio" name="forward" checked={searchOption === 'forward'} onChange={() => setSearchOption('forward')} />
-        <label htmlFor="forward" onClick={() => setSearchOption('forward')}>前方</label>
-        <input type="radio" name="partial" checked={searchOption === 'partial'} onChange={() => setSearchOption('partial')} />
-        <label htmlFor="partial" onClick={() => setSearchOption('partial')}>部分</label>
-        <input type="radio" name="regex" checked={searchOption === 'regex'} onChange={() => setSearchOption('regex')} />
-        <label htmlFor="regex" onClick={() => setSearchOption('regex')}>正規</label>
+        <input type="radio" name="forward" checked={searchParams.option === 'forward'} onChange={() => setSearchParams(convertToSearchParams(searchParams.text, 'forward', searchParams.range))} />
+        <label htmlFor="forward" onClick={() => setSearchParams(convertToSearchParams(searchParams.text, 'forward', searchParams.range))}>前方</label>
+        <input type="radio" name="partial" checked={searchParams.option === 'partial'} onChange={() => setSearchParams(convertToSearchParams(searchParams.text, 'partial', searchParams.range))} />
+        <label htmlFor="partial" onClick={() => setSearchParams(convertToSearchParams(searchParams.text, 'partial', searchParams.range))}>部分</label>
+        <input type="radio" name="regex" checked={searchParams.option === 'regex'} onChange={() => setSearchParams(convertToSearchParams(searchParams.text, 'regex', searchParams.range))} />
+        <label htmlFor="regex" onClick={() => setSearchParams(convertToSearchParams(searchParams.text, 'regex', searchParams.range))}>正規</label>
       </fieldset>
     </form>
   )

@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw'
 
 export const handlers = [
-  http.get('http://jurliyuuri.com/ail/ail_compressed.json', () => {
+  http.get('http://jurliyuuri.com/ail/ail.json', () => {
     return HttpResponse.json({
       words: [{
         entry: {

@@ -11,7 +11,7 @@ export type DictionaryData = {
 
 export const dictionaryData: DictionaryData = {
   ail: {
-    url: 'http://jurliyuuri.com/ail/ail_compressed.json'
+    url: 'http://jurliyuuri.com/ail/ail.json'
   },
   takan: {
     url: 'http://jurliyuuri.com/takan_cen/皇言集書.json'

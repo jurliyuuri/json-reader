@@ -2,9 +2,10 @@ import { useState } from 'react';
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 import './Entry.css'
 import entryFilter from './entryFilter';
+import image from '@/assets/jump.svg'
 import { Dictionary, Word } from '@/consts/dictionary'
-import { SearchOption } from '@/consts/searchOption';
-import { SearchRange } from '@/consts/searchRange';
+import { SearchParams } from '@/consts/searchParams';
+import convertQueryToSearchRegex from '@/hooks/convertQueryToSearchRegex';
 
 const Form = ({ word, permalinkId }: { word: Word, permalinkId: string }) => {
   const [show, setShow] = useState(false)
@@ -63,13 +64,15 @@ const Relations = ({ word }: { word: Word }) => {
   )
 }
 
-type Props = { readDict: Dictionary, text: string, option: SearchOption, range: SearchRange }
+type Props = { readDict: Dictionary, params: SearchParams }
 
-const Entry = ({ readDict, text, option, range }: Props) => {
+const Entry = ({ readDict, params }: Props) => {
+  const [text, option, range] = [params.text, params.option, params.range]
+  const regex = convertQueryToSearchRegex(text, option)
   return (
     <div className='outer'>
       {readDict
-        .filter((word) => entryFilter(word, text, option, range))
+        .filter((word) => entryFilter(word, regex, range))
         .sort((a, b) => a.entry.form === b.entry.form ? 0 : a.entry.form > b.entry.form ? 1 : -1)
         .map((word) => {
           const permalinkId = `id${word.entry.id}_${word.entry.form.split(' ').join('_')}`

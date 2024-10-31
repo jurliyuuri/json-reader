@@ -1,13 +1,10 @@
 import { Word } from '@/consts/dictionary'
-import { SearchOption } from '@/consts/searchOption'
 import { SearchRange } from '@/consts/searchRange'
 import { exists } from '@/hooks/common'
-import convertQueryToSearchRegex from '@/hooks/convertQueryToSearchRegex'
 
-const filt = (word: Word, text: string, option: SearchOption, range: SearchRange): RegExpMatchArray[] => {
-  const regex = convertQueryToSearchRegex(text, option)
+const filt = (word: Word, regex: RegExp, range: SearchRange): RegExpMatchArray[] => {
   if (range === 'both') {
-    return filt(word, text, option, 'word').concat(filt(word, text, option, 'equivalent'))
+    return filt(word, regex, 'word').concat(filt(word, regex, 'equivalent'))
   } else if (range === 'word') {
     return [word.entry.form.match(regex)].filter(exists<RegExpMatchArray>)
   } else if (range === 'equivalent') {
@@ -21,12 +18,12 @@ const filt = (word: Word, text: string, option: SearchOption, range: SearchRange
       .filter(exists<RegExpMatchArray>)
   } else {
     // range is definitely 'full'
-    const filtedWord = filt(word, text, option, 'word')
-    const filtedEquivalent = filt(word, text, option, 'equivalent')
+    const filtedWord = filt(word, regex, 'word')
+    const filtedEquivalent = filt(word, regex, 'equivalent')
     const filtedEquivalentTitle = word.translations
       .map(translation => translation.title.match(regex))
       .filter(exists<RegExpMatchArray>)
-    const filtedTag = filt(word, text, option, 'tag')
+    const filtedTag = filt(word, regex, 'tag')
     const filtedContents = word.contents
       .map(variation => variation.text.match(regex))
       .filter(exists<RegExpMatchArray>)
@@ -59,8 +56,8 @@ const filt = (word: Word, text: string, option: SearchOption, range: SearchRange
   }
 }
 
-const entryFilter = (word: Word, text: string, option: SearchOption, range: SearchRange) => {
-  return filt(word, text, option, range).length > 0
+const entryFilter = (word: Word, text: RegExp, range: SearchRange) => {
+  return filt(word, text, range).length > 0
 }
 
 export default entryFilter

@@ -7,6 +7,7 @@ import Share from './components/Share/Share'
 import Shortcut from './components/Shortcut'
 import UrlForm from './components/UrlForm'
 import { sampleDictionary } from './consts/dictionary'
+import { SearchParams } from './consts/searchParams'
 import { castAsSearchOption, castAsSearchRange } from './hooks/caster'
 import { getDictionary } from './hooks/getDictionary'
 import parseQuery from './hooks/queryParser'
@@ -21,11 +22,15 @@ function App() {
     castAsSearchRange(parsedQuery.range)
   ]
 
+  const querySearhParams: SearchParams = {
+    text: queryText,
+    option: queryOption,
+    range: queryRange
+  }
+
   const [readUrl, setReadUrl] = useState(queryUrl)
   const [readDict, setReadDict] = useState(sampleDictionary)
-  const [searchText, setSearchRegex] = useState(queryText)
-  const [searchOption, setSearchOption] = useState(queryOption)
-  const [searchRange, setSearchRange] = useState(queryRange)
+  const [searchParams, setSearchParams] = useState(querySearhParams)
 
   useEffect(() => {
     getDictionary(readUrl, setReadDict)
@@ -33,8 +38,8 @@ function App() {
 
   const navigate = useNavigate()
   useEffect(() => {
-    navigate(`/?url=${readUrl}&text=${searchText}&option=${searchOption}&range=${searchRange}`)
-  }, [readUrl, searchText, searchOption, searchRange, navigate])
+    navigate(`/?url=${readUrl}&text=${searchParams.text}&option=${searchParams.option}&range=${searchParams.range}`)
+  }, [readUrl, searchParams, navigate])
 
   return (
     <div>
@@ -43,11 +48,11 @@ function App() {
         <UrlForm queryReadUrl={queryUrl} setReadUrl={setReadUrl} />
         <Shortcut setReadUrl={setReadUrl} />
         <div>
-          <Search setSearchRegex={setSearchRegex}  />
+          <Search searchParams={searchParams} setSearchParams={setSearchParams}  />
           <Share readUrl={readUrl} />
         </div>
       </div>
-      <Entry readDict={readDict} text={searchText} option={searchOption} range={searchRange} />
+      <Entry readDict={readDict} params={searchParams} />
     </div>
   )
 }
