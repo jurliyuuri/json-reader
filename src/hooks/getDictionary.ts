@@ -1,4 +1,4 @@
-import { Dictionary } from "@/consts/dictionary"
+import { Dictionary } from '@/consts/dictionary'
 
 export const getDictionary = async (readUrl: string, setReadDict: React.Dispatch<React.SetStateAction<Dictionary>>) => {
   if (readUrl === '') return

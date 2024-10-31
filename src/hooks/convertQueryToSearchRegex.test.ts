@@ -8,6 +8,12 @@ describe('convert query to search regex', () => {
     expect(convertQueryToSearchRegex('cetkaik', 'regex')).toStrictEqual(/cetkaik/)
   })
 
+  it('exact', () => {
+    expect(convertQueryToSearchRegex('t^enuai', 'forward')).toStrictEqual(/^t\^enuai/)
+    expect(convertQueryToSearchRegex('t^enuai', 'partial')).toStrictEqual(/t\^enuai/)
+    expect(convertQueryToSearchRegex('t^enuai', 'exact')).toStrictEqual(/^t\^enuai$/)
+  })
+
   it('regex', () => {
     expect(convertQueryToSearchRegex('[0-9]*.+[^a-z]$', 'partial')).toStrictEqual(/\[0\-9\]\*\.\+\[\^a\-z\]\$/) // eslint-disable-line
     expect(convertQueryToSearchRegex('[0-9]*.+[^a-z]$', 'regex')).toStrictEqual(/[0-9]*.+[^a-z]$/)

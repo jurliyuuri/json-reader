@@ -13,6 +13,8 @@ const convertQueryToSearchRegex = (queryString: string, searchOption: SearchOpti
     query = `^${escapeRegex(queryString)}`
   } else if (searchOption === 'partial') {
     query = escapeRegex(queryString)
+  } else if (searchOption === 'exact') {
+    query = `^${escapeRegex(queryString)}$`
   } else {
     query = queryString // searchOption is definitely 'regex'
   }
