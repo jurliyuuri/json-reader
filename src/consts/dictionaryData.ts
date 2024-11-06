@@ -11,16 +11,16 @@ export type DictionaryData = {
 
 export const dictionaryData: DictionaryData = {
   ail: {
-    url: 'http://jurliyuuri.com/ail/ail.json'
+    url: 'https://jurliyuuri.com/ail/ail.json'
   },
   takan: {
-    url: 'http://jurliyuuri.com/takan_cen/皇言集書.json'
+    url: 'https://jurliyuuri.com/takan_cen/皇言集書.json'
   },
   bhat: {
-    url: 'http://jurliyuuri.com/bhaataan/bhat.json'
+    url: 'https://jurliyuuri.com/bhaataan/bhat.json'
   },
   pmcf: {
-    url: 'http://jurliyuuri.com/pmcp_dictionary/pmcf_dict.json'
+    url: 'https://jurliyuuri.com/pmcp_dictionary/pmcf_dict.json'
   },
   calass: {
     url: 'https://raw.githubusercontent.com/jurliyuuri/dyin_settings/master/lang/dictionaries/calass.json'

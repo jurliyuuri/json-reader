@@ -10,10 +10,10 @@ import { sampleDictionary } from './consts/dictionary'
 import { SearchParams } from './consts/searchParams'
 import { castAsSearchOption, castAsSearchRange } from './hooks/caster'
 import { getDictionary } from './hooks/getDictionary'
-import parseQuery from './hooks/queryParser'
+import parseQuery from './hooks/parseQuery'
 
 function App() {
-  const queryParams = new URLSearchParams(window.location.search.slice(1))
+  const queryParams = new URLSearchParams(window.location.search)
   const parsedQuery = parseQuery(queryParams)
   const [queryUrl, queryText, queryOption, queryRange] = [
     parsedQuery.url,
