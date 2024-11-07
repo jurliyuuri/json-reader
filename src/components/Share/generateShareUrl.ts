@@ -1,9 +1,17 @@
 import { SearchParams } from "@/consts/searchParams"
 
 const generateShareUrl = (readUrl: string, searchParams: SearchParams): string => {
-  const url = readUrl ? `url=${readUrl}` : ''
-  const params = `text=${searchParams.text}&option=${searchParams.option}&range=${searchParams.range}`
-  return `${window.location.protocol}//${window.location.host}/json-reader/?${url ? `${url}&` : ''}${params}`
+  const url = new URL('/json-reader/', window.location.origin)
+
+  if (readUrl) {
+    url.searchParams.set('url', readUrl)
+  }
+
+  url.searchParams.set('text', searchParams.text)
+  url.searchParams.set('option', searchParams.option)
+  url.searchParams.set('range', searchParams.range)
+
+  return url.toString()
 }
 
 export default generateShareUrl
