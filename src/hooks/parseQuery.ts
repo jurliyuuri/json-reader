@@ -12,7 +12,7 @@ const defaultParsedQuery: ParsedQuery = {
   range: ''
 }
 
-const parseQuery: (queryParams: URLSearchParams) => ParsedQuery = (queryParams: URLSearchParams) => {
+const parseQuery = (queryParams: URLSearchParams) => {
   const parsedQuery = [...queryParams]
     .filter(([key,]) => key in defaultParsedQuery)
     .reduce(

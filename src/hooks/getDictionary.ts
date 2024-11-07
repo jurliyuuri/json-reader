@@ -1,6 +1,6 @@
 import { Dictionary } from '@/consts/dictionary'
 
-export const getDictionary = async (readUrl: string, setReadDict: React.Dispatch<React.SetStateAction<Dictionary>>) => {
+const getDictionary = async (readUrl: string, setReadDict: React.Dispatch<React.SetStateAction<Dictionary>>) => {
   if (readUrl === '') return
   const fetchDictionary = await fetch(readUrl)
   const dirtyDictionary = await fetchDictionary.json()
@@ -9,3 +9,5 @@ export const getDictionary = async (readUrl: string, setReadDict: React.Dispatch
   }
   setReadDict(dirtyDictionary.words)
 }
+
+export default getDictionary

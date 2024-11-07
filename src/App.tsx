@@ -9,7 +9,7 @@ import UrlForm from './components/UrlForm'
 import { sampleDictionary } from './consts/dictionary'
 import { SearchParams } from './consts/searchParams'
 import { castAsSearchOption, castAsSearchRange } from './hooks/caster'
-import { getDictionary } from './hooks/getDictionary'
+import getDictionary from './hooks/getDictionary'
 import parseQuery from './hooks/parseQuery'
 
 function App() {

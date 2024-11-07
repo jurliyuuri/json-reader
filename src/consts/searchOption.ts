@@ -5,4 +5,3 @@ export const searchOption: SearchOption[] = [
   'exact',
   'regex'
 ]
-export const isSearchType = (s: string): s is SearchOption => s in searchOption
