@@ -13,7 +13,7 @@ import getDictionary from './hooks/getDictionary'
 import parseQuery from './hooks/parseQuery'
 
 function App() {
-  const queryParams = new URLSearchParams(window.location.search)
+  const queryParams = new URLSearchParams(location.search)
   const parsedQuery = parseQuery(queryParams)
   const [queryUrl, queryText, queryOption, queryRange] = [
     parsedQuery.url,
@@ -49,7 +49,7 @@ function App() {
         <Shortcut setReadUrl={setReadUrl} />
         <div>
           <Search searchParams={searchParams} setSearchParams={setSearchParams}  />
-          <Share readUrl={readUrl} searchParams={searchParams}/>
+          <Share />
         </div>
       </div>
       <Entry readDict={readDict} params={searchParams} />

@@ -1,21 +1,19 @@
 import { useState } from 'react'
-import generateShareUrl from './generateShareUrl'
+import generateUrlWithQuery from '../../hooks/generateUrlWithQuery'
 import image from '@/assets/share-chain.svg'
 import './Share.css'
-import { SearchParams } from '@/consts/searchParams'
 
-type Props = {
-  readUrl: string,
-  searchParams: SearchParams
-}
-
-const Share = ({ readUrl, searchParams }: Props) => {
+const Share = () => {
   const [urlToCopy, setUrlToCopy] = useState('')
 
   const handleClick = () => {
-    const shareUrl = generateShareUrl(readUrl, searchParams)
+    const shareUrl = generateUrlWithQuery()
     try {
+      if (isDevMode()) {
+        throw new Error()
+      }
       navigator.clipboard.writeText(shareUrl).then(
+        // ここでポップアップを出したい
         () => console.log('successfully copied!')
       )
     } catch {

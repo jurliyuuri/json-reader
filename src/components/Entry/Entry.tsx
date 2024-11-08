@@ -10,7 +10,7 @@ import convertQueryToSearchRegex from '@/hooks/convertQueryToSearchRegex'
 const Form = ({ word, permalinkId }: { word: Word, permalinkId: string }) => {
   const [show, setShow] = useState(false)
   return (
-    <div id={permalinkId} onMouseOver={() => setShow(true)} onMouseOut={() => setShow(false)}>
+    <div id={permalinkId} onMouseOver={() => setShow((prevShow) => !prevShow)} onMouseOut={() => setShow((prevShow) => !prevShow)}>
       <div className='word-form'>{word.entry.form}</div>
       <div className='tags'>
         {word.tags.map(tag => <span key={tag} className='bordered-info'>{tag}</span>)}
@@ -53,12 +53,40 @@ const Variations = ({ word }: { word: Word }) => {
 }
 
 const Relations = ({ word }: { word: Word }) => {
+  const [show, setShow] = useState(word.relations.reduce<Record<string, boolean>>((acc, relation) => {
+    const key = `${relation.title}${relation.entry.id}`
+    acc[key] = false
+    return acc
+  }, {}))
+  
+  const handleMouseEvent = (key: string) => {
+    setShow((prevShow) => ({ ...prevShow, [key]: !prevShow[key]}))
+  }
+
+  const params = new URLSearchParams(location.search)
+  const query = decodeURIComponent(new URLSearchParams({
+    url: params.get('url') ? params.get('url') as string : '',
+    option: 'exact',
+    range: 'word'
+  }).toString())
+  const newTabUrlWithoutText = `${location.origin}/json-reader/?${query}`
+
   return (
     <div className='word-infos'>
-      {word.relations.map(({ title, entry }) =>
-        <p className='word-info' key={`${entry.id}`}>
-          →<span className='bordered-info'>{title}</span><AnchorLink href={`#id${entry.id}_${entry.form.split(' ').join('_')}`}>{entry.form}</AnchorLink>
-        </p>
+      {word.relations.map(({ title, entry }) => {
+        const key = `${title}${entry.id}`
+        return (
+          <p className='word-info'
+            key={key}
+            onMouseOver={() => handleMouseEvent(key)}
+            onMouseOut={() => handleMouseEvent(key)}
+          >
+            →<span className='bordered-info'>{title}</span>
+            <AnchorLink href={`#id${entry.id}_${entry.form.split(' ').join('_')}`}>{entry.form}</AnchorLink>
+            {show[key] && <a href={`${newTabUrlWithoutText}&text=${entry.form}`} target='_blank'><img src={image} className='jump' /></a>}
+          </p>
+        )
+      }
       )}
     </div>
   )
