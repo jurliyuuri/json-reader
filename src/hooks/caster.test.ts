@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
-import { castAsSearchOption, castAsSearchRange } from './caster';
+import { describe, expect, it } from 'vitest'
+import { castAsSearchOption, castAsSearchRange } from './caster'
 
 describe('searchOption', () => {
   it('forward', () => {

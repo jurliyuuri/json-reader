@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { Language, dictionaryData } from '@/consts/dictionaryData'
 
 const Button = ({ lang, setReadUrl }: { lang: Language, setReadUrl: React.Dispatch<React.SetStateAction<string>> }) => {
@@ -7,7 +7,7 @@ const Button = ({ lang, setReadUrl }: { lang: Language, setReadUrl: React.Dispat
       {lang}
     </button>
   )
-};
+}
 
 const Shortcut = ({ setReadUrl }: { setReadUrl: React.Dispatch<React.SetStateAction<string>> }) => {
   return <div>
@@ -22,4 +22,4 @@ const Shortcut = ({ setReadUrl }: { setReadUrl: React.Dispatch<React.SetStateAct
   </div>
 }
 
-export default Shortcut;
+export default Shortcut

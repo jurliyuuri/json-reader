@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
-import entryFilter from './entryFilter';
+import { describe, expect, it } from 'vitest'
+import entryFilter from './entryFilter'
 
 describe('filter', () => {
   it('empty string', () => {

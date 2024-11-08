@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState } from 'react'
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 import './Entry.css'
-import entryFilter from './entryFilter';
+import entryFilter from './entryFilter'
 import image from '@/assets/jump.svg'
 import { Dictionary, Word } from '@/consts/dictionary'
-import { SearchParams } from '@/consts/searchParams';
-import convertQueryToSearchRegex from '@/hooks/convertQueryToSearchRegex';
+import { SearchParams } from '@/consts/searchParams'
+import convertQueryToSearchRegex from '@/hooks/convertQueryToSearchRegex'
 
 const Form = ({ word, permalinkId }: { word: Word, permalinkId: string }) => {
   const [show, setShow] = useState(false)
