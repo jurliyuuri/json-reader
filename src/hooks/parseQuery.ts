@@ -1,26 +1,22 @@
-type ParsedQuery = {
+import queryString from "query-string"
+import { castAsSearchOption, castAsSearchRange } from "./caster"
+import { SearchParams } from "@/consts/searchParams"
+
+type ParsedParams = {
   url: string,
-  text: string,
-  option: string,
-  range: string
+  param: SearchParams
 }
 
-const defaultParsedQuery: ParsedQuery = {
-  url: '',
-  text: '',
-  option: '',
-  range: ''
-}
-
-const parseQuery = (queryParams: URLSearchParams) => {
-  const parsedQuery = [...queryParams]
-    .filter(([key,]) => key in defaultParsedQuery)
-    .reduce(
-      (accumulator, [key, param]) => {
-        accumulator[key as keyof ParsedQuery] = decodeURI(param)
-        return accumulator
-      }, defaultParsedQuery)
-  return parsedQuery
+const parseQuery = (queryParams: queryString.ParsedQuery<string>) => {
+  const [url, text, option, range] = [queryParams.url, queryParams.text, queryParams.option, queryParams.range]
+  return {
+    url: typeof url === 'string' ? url as string : '',
+    param: {
+      text: typeof text === 'string' ? text as string : '',
+      option: castAsSearchOption(option as string),
+      range: castAsSearchRange(range as string)
+    }
+  } as ParsedParams
 }
 
 export default parseQuery

@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
 type Props = {
-  queryReadUrl: string,
+  readUrl: string,
   setReadUrl: React.Dispatch<React.SetStateAction<string>>
 }
 
-const UrlForm = ({ queryReadUrl, setReadUrl }: Props) => {
-  const [inputUrl, setInputUrl] = useState(queryReadUrl)
+const UrlForm = ({ readUrl, setReadUrl }: Props) => {
+  const [inputUrl, setInputUrl] = useState(readUrl)
   return (
     <div>
       <input id='url' value={inputUrl} size={40}

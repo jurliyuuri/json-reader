@@ -14,7 +14,7 @@ export type Word = {
   }[],
   readonly variations: {
     readonly title: string,
-    readonly text: string,
+    readonly form: string,
   }[],
   readonly relations: {
     readonly title: string,
@@ -27,6 +27,20 @@ export type Word = {
 }
 
 export type Dictionary = Word[]
+
+export const isDictionary = (words: Dictionary): words is Dictionary => {
+  return (
+    typeof words[0] === 'object' &&
+    typeof words[0].entry === 'object' &&
+    typeof words[0].entry.id === 'number' &&
+    typeof words[0].entry.form === 'string' &&
+    Array.isArray(words[0].translations) &&
+    Array.isArray(words[0].tags) &&
+    Array.isArray(words[0].contents) &&
+    Array.isArray(words[0].variations) &&
+    Array.isArray(words[0].relations)
+  )
+}
 
 export const sampleDictionary: Dictionary = [
   {
@@ -44,10 +58,10 @@ export const sampleDictionary: Dictionary = [
       text: '上の入力欄に読みたいOTM-JSONファイルのあるURLを入れてloadボタンを押してください'
     }, {
       title: '検索方法',
-      text: 'ブラウザのページ内検索で頑張って探しましょう'
+      text: '検索欄に文字列を入れてSearchボタンを押してください'
     }, {
       title: '辞書ページを共有したいときは',
-      text: '共有したい辞書ページを読み込んで、入力欄の下の共有アイコンを押すとリンクが表示されるので、それをコピーしてください。'
+      text: '共有したい辞書ページを読み込んで、入力欄の下の共有アイコンを押すとリンクがコピーされます\nもしくは環境によってはリンクが表示されるので、それをコピーしてください'
     }, {
       title: '問い合わせ先',
       text: 'https://github.com/jurliyuuri/json-reader/issues/'

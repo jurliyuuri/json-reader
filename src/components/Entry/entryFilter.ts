@@ -31,7 +31,7 @@ const filt = (word: Word, regex: RegExp, range: SearchRange): RegExpMatchArray[]
       .map(variation => variation.title.match(regex))
       .filter(exists<RegExpMatchArray>)
     const filtedVariation = word.variations
-      .map(variation => variation.text.match(regex))
+      .map(variation => variation.form.match(regex))
       .filter(exists<RegExpMatchArray>)
     const filtedVariationTitle = word.variations
       .map(variation => variation.title.match(regex))

@@ -1,3 +1,5 @@
+import { useQuery } from '@tanstack/react-query'
+import queryString from 'query-string'
 import { useState, useEffect } from 'react'
 import './App.css'
 import { useNavigate } from 'react-router-dom'
@@ -6,53 +8,39 @@ import Search from './components/Search/Search'
 import Share from './components/Share/Share'
 import Shortcut from './components/Shortcut'
 import UrlForm from './components/UrlForm'
-import { sampleDictionary } from './consts/dictionary'
-import { SearchParams } from './consts/searchParams'
-import { castAsSearchOption, castAsSearchRange } from './hooks/caster'
+import { Dictionary, sampleDictionary } from './consts/dictionary'
 import getDictionary from './hooks/getDictionary'
 import parseQuery from './hooks/parseQuery'
 
 function App() {
-  const queryParams = new URLSearchParams(location.search)
-  const parsedQuery = parseQuery(queryParams)
-  const [queryUrl, queryText, queryOption, queryRange] = [
-    parsedQuery.url,
-    parsedQuery.text,
-    castAsSearchOption(parsedQuery.option),
-    castAsSearchRange(parsedQuery.range)
-  ]
+  const { url, param } = parseQuery(queryString.parse(location.search))
 
-  const querySearhParams: SearchParams = {
-    text: queryText,
-    option: queryOption,
-    range: queryRange
+  const [readUrl, setReadUrl] = useState(url)
+  const [searchParams, setSearchParams] = useState(param)
+
+  const useDictionary = (): [Dictionary, boolean, Error | null] => {
+    const { data: fetchDict, isLoading, error } = useQuery({
+      queryKey: ['dict', readUrl],
+      queryFn: async () => getDictionary(readUrl)
+    })
+    return [fetchDict ?? sampleDictionary, isLoading, error]
   }
-
-  const [readUrl, setReadUrl] = useState(queryUrl)
-  const [readDict, setReadDict] = useState(sampleDictionary)
-  const [searchParams, setSearchParams] = useState(querySearhParams)
-
-  useEffect(() => {
-    getDictionary(readUrl, setReadDict)
-  }, [readUrl, setReadDict])
 
   const navigate = useNavigate()
   useEffect(() => {
-    navigate(`/?url=${readUrl}&text=${searchParams.text}&option=${searchParams.option}&range=${searchParams.range}`)
+    navigate(`/?${queryString.stringify({url: readUrl, ...searchParams})}`)
   }, [readUrl, searchParams, navigate])
 
   return (
     <div>
       <div className='header'>
         <h1><a href='./'>OTM-JSON Online Reader</a></h1>
-        <UrlForm queryReadUrl={queryUrl} setReadUrl={setReadUrl} />
+        <UrlForm readUrl={readUrl} setReadUrl={setReadUrl} />
         <Shortcut setReadUrl={setReadUrl} />
-        <div>
-          <Search searchParams={searchParams} setSearchParams={setSearchParams}  />
-          <Share />
-        </div>
+        <Search searchParams={searchParams} setSearchParams={setSearchParams} />
+        <Share />
       </div>
-      <Entry readDict={readDict} params={searchParams} />
+      <Entry dictionary={useDictionary()} params={searchParams} />
     </div>
   )
 }

@@ -8,14 +8,14 @@ import { SearchParams } from '@/consts/searchParams'
 import convertQueryToSearchRegex from '@/hooks/convertQueryToSearchRegex'
 
 const Form = ({ word, permalinkId }: { word: Word, permalinkId: string }) => {
-  const [show, setShow] = useState(false)
   return (
-    <div id={permalinkId} onMouseOver={() => setShow((prevShow) => !prevShow)} onMouseOut={() => setShow((prevShow) => !prevShow)}>
+    <div id={permalinkId}>
       <div className='word-form'>{word.entry.form}</div>
       <div className='tags'>
-        {word.tags.map(tag => <span key={tag} className='bordered-info'>{tag}</span>)}
+        {word.tags.map(tag =>
+          <span key={tag} className='bordered-info'>{tag}</span>
+        )}
       </div>
-      {show && <AnchorLink href={`#${permalinkId}`}>¶</AnchorLink>}
     </div>
   )
 }
@@ -45,8 +45,8 @@ const Contents = ({ word }: { word: Word }) => {
 const Variations = ({ word }: { word: Word }) => {
   return (
     <div className='word-infos'>
-      {word.variations.map(({ title, text }) =>
-        <div className='word-info' key={`${title}${text}`}><span className='variation-title'>&gt; {title}</span>{text}</div>
+      {word.variations.map(({ title, form }) =>
+        <div className='word-info' key={`${title}${form}`}><span className='variation-title'>&gt; {title}</span>{form}</div>
       )}
     </div>
   )
@@ -58,9 +58,9 @@ const Relations = ({ word }: { word: Word }) => {
     acc[key] = false
     return acc
   }, {}))
-  
+
   const handleMouseEvent = (key: string) => {
-    setShow((prevShow) => ({ ...prevShow, [key]: !prevShow[key]}))
+    setShow((prevShow) => ({ ...prevShow, [key]: !prevShow[key] }))
   }
 
   const params = new URLSearchParams(location.search)
@@ -92,30 +92,38 @@ const Relations = ({ word }: { word: Word }) => {
   )
 }
 
-type Props = { readDict: Dictionary, params: SearchParams }
+type Props = { dictionary: [Dictionary, boolean, Error | null], params: SearchParams }
 
-const Entry = ({ readDict, params }: Props) => {
+const Entry = ({ dictionary, params }: Props) => {
+  const [readDict, isLoading, error] = dictionary
   const [text, option, range] = [params.text, params.option, params.range]
   const regex = convertQueryToSearchRegex(text, option)
-  return (
-    <div className='outer'>
-      {readDict
-        .filter((word) => entryFilter(word, regex, range))
-        .sort((a, b) => a.entry.form === b.entry.form ? 0 : a.entry.form > b.entry.form ? 1 : -1)
-        .map((word) => {
-          const permalinkId = `id${word.entry.id}_${word.entry.form.split(' ').join('_')}`
-          return (
-            <div className='word' key={word.entry.id}>
-              <Form word={word} permalinkId={permalinkId} />
-              <Translations word={word} />
-              <Contents word={word} />
-              <Variations word={word} />
-              <Relations word={word} />
-            </div>
-          )
-        })}
-    </div>
-  )
+
+  if (isLoading) {
+    return <div>Now Loading...</div>
+  } else if (error) {
+    return <div>{error.message}</div>
+  } else {
+    return (
+      <div className='outer'>
+        {readDict
+          .filter((word) => entryFilter(word, regex, range))
+          .sort((a, b) => a.entry.form === b.entry.form ? 0 : a.entry.form > b.entry.form ? 1 : -1)
+          .map((word) => {
+            const permalinkId = `id${word.entry.id}_${word.entry.form.split(' ').join('_')}`
+            return (
+              <div className='word' key={word.entry.id}>
+                <Form word={word} permalinkId={permalinkId} />
+                <Translations word={word} />
+                <Contents word={word} />
+                <Variations word={word} />
+                <Relations word={word} />
+              </div>
+            )
+          })}
+      </div>
+    )
+  }
 }
 
 export default Entry

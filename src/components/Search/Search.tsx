@@ -15,7 +15,7 @@ const Search = ({ searchParams, setSearchParams }: Props) => {
     e.preventDefault()
     setSearchParams({...searchParams, text: query})
   }
-  const handleClick: React.MouseEventHandler<HTMLInputElement> = (e) => {
+  const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault()
     setSearchParams({...searchParams, text: query})
   }
@@ -25,7 +25,7 @@ const Search = ({ searchParams, setSearchParams }: Props) => {
       <fieldset>
         <input type='text' value={query}
           onChange={(event) => setQuery(event.target.value)} />
-        <input type="button" value='Search' onClick={handleClick} />
+        <button type="button" onClick={handleClick}>Search</button>
         <br />
         <input type='radio' name='forward' checked={option === 'forward'} onChange={() => setSearchParams({...searchParams, option: 'forward'})} />
         <label htmlFor='forward' onClick={() => setSearchParams({...searchParams, option: 'forward'})}>前方</label>
