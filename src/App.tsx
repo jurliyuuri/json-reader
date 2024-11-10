@@ -19,11 +19,11 @@ function App() {
   const [searchParams, setSearchParams] = useState(param)
 
   const useDictionary = (): [Dictionary, boolean, Error | null] => {
-    const { data: fetchDict, isLoading, error } = useQuery({
+    const { data: fetchedDict, isLoading, error } = useQuery({
       queryKey: ['dict', readUrl],
       queryFn: async () => getDictionary(readUrl)
     })
-    return [fetchDict ?? sampleDictionary, isLoading, error]
+    return [fetchedDict ?? sampleDictionary, isLoading, error]
   }
 
   const navigate = useNavigate()
@@ -38,9 +38,9 @@ function App() {
         <UrlForm readUrl={readUrl} setReadUrl={setReadUrl} />
         <Shortcut setReadUrl={setReadUrl} />
         <Search searchParams={searchParams} setSearchParams={setSearchParams} />
-        <Share />
+        <Share readUrl={readUrl} searchParams={searchParams} />
       </div>
-      <Entry dictionary={useDictionary()} params={searchParams} />
+      <Entry dictionary={useDictionary()} params={searchParams} readUrl={readUrl} />
     </div>
   )
 }

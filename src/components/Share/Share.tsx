@@ -1,20 +1,28 @@
 import { useState } from 'react'
-import generateUrlWithQuery from '../../hooks/generateUrlWithQuery'
 import image from '@/assets/share-chain.svg'
+import { SearchParams } from '@/consts/searchParams'
+import generateUrlWithQuery from '@/hooks/generateUrlWithQuery'
+import useFadeInOut from '@/hooks/useFadeInOut'
 import './Share.css'
 
-const Share = () => {
+type Props = {
+  readUrl: string,
+  searchParams: SearchParams
+}
+
+const Share = ({ readUrl, searchParams }: Props) => {
   const [urlToCopy, setUrlToCopy] = useState('')
+  const { handleOpen, handleClose, boxStyle } = useFadeInOut(false, 0.5)
 
   const handleClick = () => {
-    const shareUrl = generateUrlWithQuery()
+    const shareUrl = generateUrlWithQuery(readUrl, searchParams)
     try {
-      if (isDevMode()) {
-        throw new Error()
-      }
       navigator.clipboard.writeText(shareUrl).then(
-        // ここでポップアップを出したい
-        () => console.log('successfully copied!')
+        () => {
+          handleOpen()
+          console.log('successfully copied!')
+          setTimeout(() => handleClose(), 2500)
+        }
       )
     } catch {
       setUrlToCopy(shareUrl)
@@ -23,9 +31,11 @@ const Share = () => {
   }
 
   return (
-    <div>
-      <img src={image} className='share' onClick={handleClick} />
+    <div className='share'>
+      <div style={boxStyle}><div className='popup'>&#x2714;Copied!</div></div>
+      <img src={image} className='share-image' onClick={handleClick} />
       {urlToCopy && <span> url: <a href={urlToCopy}>{urlToCopy}</a></span>}
+
     </div>
   )
 }

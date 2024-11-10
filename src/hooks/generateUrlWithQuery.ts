@@ -1,13 +1,11 @@
-const generateUrlWithQuery = (): string => {
-  const url = new URL('/json-reader/', location.origin)
-  const params = new URLSearchParams(location.search)
+import queryString from "query-string"
+import { SearchParams } from "@/consts/searchParams"
 
-  url.searchParams.set('url', params.get('url') ? params.get('url') as string : '')
-  url.searchParams.set('text', params.get('text') as string)
-  url.searchParams.set('option', params.get('option') as string)
-  url.searchParams.set('range', params.get('range') as string)
-
-  return url.toString()
+const generateUrlWithQuery = (readUrl: string, params: SearchParams): string => {
+  return queryString.stringifyUrl({
+    url: `${location.origin}/json-reader/`,
+    query: {url: readUrl, ...params}
+  })
 }
 
 export default generateUrlWithQuery

@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import generateUrlWithQuery from './generateUrlWithQuery'
 
 describe('filter', () => {
+  const mockOrigin = 'https://example.com/'
   const originalLocation = location
 
   beforeAll(() => {
@@ -10,7 +11,7 @@ describe('filter', () => {
         ...originalLocation,
         assign: vi.fn(),
         search: '',
-        origin: 'https://mock.com/'
+        origin: mockOrigin
       },
       writable: true
     })
@@ -18,28 +19,34 @@ describe('filter', () => {
 
   afterAll(() => {
     Object.defineProperty(window, 'location', {
-      value: {...originalLocation}
+      value: { ...originalLocation }
     })
   })
 
   it('no url', () => {
-    location.search = '?text=&option=forward&range=both'
     expect((
-      decodeURIComponent(new URL(generateUrlWithQuery()).search)
-    )).toStrictEqual('?url=&text=&option=forward&range=both')
+      generateUrlWithQuery(
+        '',
+        { text: '', option: 'forward', range: 'both' }
+      ))
+    ).toStrictEqual(`${mockOrigin}/json-reader/?option=forward&range=both&text=&url=`)
   })
 
   it('url && no text', () => {
-    location.search = '?url=http://jurliyuuri.com/ail.ail.json&text=&option=forward&range=both'
     expect((
-      decodeURIComponent(new URL(generateUrlWithQuery()).search)
-    )).toStrictEqual('?url=http://jurliyuuri.com/ail.ail.json&text=&option=forward&range=both')
+      generateUrlWithQuery(
+        'https://jurliyuuri.com/ail/ail.json',
+        { text: '', option: 'forward', range: 'both' }
+      )
+    )).toStrictEqual(`${mockOrigin}/json-reader/?option=forward&range=both&text=&url=https%3A%2F%2Fjurliyuuri.com%2Fail%2Fail.json`)
   })
 
   it('url && text', () => {
-    location.search = '?url=http://jurliyuuri.com/ail.ail.json&text=chuwo&option=partial&range=word'
     expect((
-      decodeURIComponent(new URL(generateUrlWithQuery()).search)
-    )).toStrictEqual('?url=http://jurliyuuri.com/ail.ail.json&text=chuwo&option=partial&range=word')
+      generateUrlWithQuery(
+        'https://jurliyuuri.com/takan_cen/皇言集書.json',
+        { text: 'lu', option: 'partial', range: 'word' }
+      )
+    )).toStrictEqual(`${mockOrigin}/json-reader/?option=partial&range=word&text=lu&url=https%3A%2F%2Fjurliyuuri.com%2Ftakan_cen%2F%E7%9A%87%E8%A8%80%E9%9B%86%E6%9B%B8.json`)
   })
 })

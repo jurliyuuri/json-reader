@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import './Search.css'
 import { SearchParams } from '@/consts/searchParams'
+import './Search.css'
 
 type Props = {
   searchParams: SearchParams,

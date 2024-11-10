@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import AnchorLink from 'react-anchor-link-smooth-scroll'
-import './Entry.css'
+import convertQueryToSearchRegex from './convertQueryToSearchRegex'
 import entryFilter from './entryFilter'
 import image from '@/assets/jump.svg'
 import { Dictionary, Word } from '@/consts/dictionary'
 import { SearchParams } from '@/consts/searchParams'
-import convertQueryToSearchRegex from '@/hooks/convertQueryToSearchRegex'
+import generateUrlWithQuery from '@/hooks/generateUrlWithQuery'
+import './Entry.css'
 
 const Form = ({ word, permalinkId }: { word: Word, permalinkId: string }) => {
   return (
@@ -52,7 +53,7 @@ const Variations = ({ word }: { word: Word }) => {
   )
 }
 
-const Relations = ({ word }: { word: Word }) => {
+const Relations = ({ word, url }: { word: Word, url: string }) => {
   const [show, setShow] = useState(word.relations.reduce<Record<string, boolean>>((acc, relation) => {
     const key = `${relation.title}${relation.entry.id}`
     acc[key] = false
@@ -62,14 +63,6 @@ const Relations = ({ word }: { word: Word }) => {
   const handleMouseEvent = (key: string) => {
     setShow((prevShow) => ({ ...prevShow, [key]: !prevShow[key] }))
   }
-
-  const params = new URLSearchParams(location.search)
-  const query = decodeURIComponent(new URLSearchParams({
-    url: params.get('url') ? params.get('url') as string : '',
-    option: 'exact',
-    range: 'word'
-  }).toString())
-  const newTabUrlWithoutText = `${location.origin}/json-reader/?${query}`
 
   return (
     <div className='word-infos'>
@@ -83,7 +76,9 @@ const Relations = ({ word }: { word: Word }) => {
           >
             →<span className='bordered-info'>{title}</span>
             <AnchorLink href={`#id${entry.id}_${entry.form.split(' ').join('_')}`}>{entry.form}</AnchorLink>
-            {show[key] && <a href={`${newTabUrlWithoutText}&text=${entry.form}`} target='_blank'><img src={image} className='jump' /></a>}
+            {show[key] && <a href={
+              generateUrlWithQuery(url, { text: entry.form, option: 'exact', range: 'word' })
+            } target='_blank'><img src={image} className='jump' /></a>}
           </p>
         )
       }
@@ -92,9 +87,13 @@ const Relations = ({ word }: { word: Word }) => {
   )
 }
 
-type Props = { dictionary: [Dictionary, boolean, Error | null], params: SearchParams }
+type Props = {
+  readUrl: string,
+  params: SearchParams,
+  dictionary: [Dictionary, boolean, Error | null]
+}
 
-const Entry = ({ dictionary, params }: Props) => {
+const Entry = ({ readUrl, params, dictionary }: Props) => {
   const [readDict, isLoading, error] = dictionary
   const [text, option, range] = [params.text, params.option, params.range]
   const regex = convertQueryToSearchRegex(text, option)
@@ -117,7 +116,7 @@ const Entry = ({ dictionary, params }: Props) => {
                 <Translations word={word} />
                 <Contents word={word} />
                 <Variations word={word} />
-                <Relations word={word} />
+                <Relations word={word} url={readUrl} />
               </div>
             )
           })}
