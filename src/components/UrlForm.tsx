@@ -15,7 +15,7 @@ const UrlForm = ({ readUrl, setReadUrl }: Props) => {
   }
   return (
     <div>
-      <input id='url' value={inputUrl} size={40}
+      <input id='url' value={inputUrl} size={35}
         placeholder='https://piyo.github.io/lang/dict.json'
         onChange={(e) => { setInputUrl(e.target.value) }}
         onKeyDown={(e) => { if (e.key === 'Enter') setUrls(inputUrl) }} />

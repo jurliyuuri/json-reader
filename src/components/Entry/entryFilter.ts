@@ -16,6 +16,11 @@ const filt = (word: Word, regex: RegExp, range: SearchRange): RegExpMatchArray[]
     return word.tags
       .map(tag => tag.match(regex))
       .filter(exists<RegExpMatchArray>)
+  } else if (range ==='equivalentTag') {
+    return word.translations
+    .reduce((accumulator, current) => accumulator.concat(current.title), new Array<string>)
+    .map(translationTitle => translationTitle.match(regex))
+    .filter(exists<RegExpMatchArray>)
   } else {
     // range is definitely 'full'
     const filtedWord = filt(word, regex, 'word')
@@ -25,10 +30,10 @@ const filt = (word: Word, regex: RegExp, range: SearchRange): RegExpMatchArray[]
       .filter(exists<RegExpMatchArray>)
     const filtedTag = filt(word, regex, 'tag')
     const filtedContents = word.contents
-      .map(variation => variation.text.match(regex))
+      .map(content => content.text.match(regex))
       .filter(exists<RegExpMatchArray>)
     const filtedContentsTitle = word.contents
-      .map(variation => variation.title.match(regex))
+      .map(content => content.title.match(regex))
       .filter(exists<RegExpMatchArray>)
     const filtedVariation = word.variations
       .map(variation => variation.form.match(regex))

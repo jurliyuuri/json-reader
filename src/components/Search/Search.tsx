@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { SearchOption } from '@/consts/searchOption'
 import { SearchParams } from '@/consts/searchParams'
+import { SearchRange } from '@/consts/searchRange'
 import './Search.css'
 
 type Props = {
@@ -10,44 +12,42 @@ type Props = {
 const Search = ({ searchParams, setSearchParams }: Props) => {
   const { text, option, range } = searchParams
   const [query, setQuery] = useState(text)
-  
+
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    setSearchParams({...searchParams, text: query})
+    setSearchParams({ ...searchParams, text: query })
   }
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault()
-    setSearchParams({...searchParams, text: query})
+    setSearchParams({ ...searchParams, text: query })
   }
 
   return (
     <form onSubmit={onSubmit}>
       <fieldset>
-        <input type='text' value={query}
-          onChange={(event) => setQuery(event.target.value)} />
+        <input type='text' value={query} onChange={(event) => setQuery(event.target.value)} />
         <button type="button" onClick={handleClick}>Search</button>
         <br />
-        <input type='radio' name='forward' checked={option === 'forward'} onChange={() => setSearchParams({...searchParams, option: 'forward'})} />
-        <label htmlFor='forward' onClick={() => setSearchParams({...searchParams, option: 'forward'})}>前方</label>
-        <input type='radio' name='partial' checked={option === 'partial'} onChange={() => setSearchParams({...searchParams, option: 'partial'})} />
-        <label htmlFor='partial' onClick={() => setSearchParams({...searchParams, option: 'partial'})}>部分</label>
-        <input type='radio' name='exact' checked={option === 'exact'} onChange={() => setSearchParams({...searchParams, option: 'exact'})} />
-        <label htmlFor='exact' onClick={() => setSearchParams({...searchParams, option: 'exact'})}>完全</label>
-        <input type='radio' name='regex' checked={option === 'regex'} onChange={() => setSearchParams({...searchParams, option: 'regex'})} />
-        <label htmlFor='regex' onClick={() => setSearchParams({...searchParams, option: 'regex'})}>正規</label>
-        <br />
-        <input type='radio' name='both' checked={range === 'both'} onChange={() => setSearchParams({...searchParams, range: 'both'})} />
-        <label htmlFor='both' onClick={() => setSearchParams({...searchParams, range: 'both'})}>単語+訳語</label>
-        <input type='radio' name='word' checked={range === 'word'} onChange={() => setSearchParams({...searchParams, range: 'word'})} />
-        <label htmlFor='word' onClick={() => setSearchParams({...searchParams, range: 'word'})}>単語</label>
-        <input type='radio' name='equivalent' checked={range === 'equivalent'} onChange={() => setSearchParams({...searchParams, range: 'equivalent'})} />
-        <label htmlFor='equivalent' onClick={() => setSearchParams({...searchParams, range: 'equivalent'})}>訳語</label>
-        <input type='radio' name='tag' checked={range === 'tag'} onChange={() => setSearchParams({...searchParams, range: 'tag'})} />
-        <label htmlFor='tag' onClick={() => setSearchParams({...searchParams, range: 'tag'})}>タグ</label>
-        <input type='radio' name='full' checked={range === 'full'} onChange={() => setSearchParams({...searchParams, range: 'full'})} />
-        <label htmlFor='full' onClick={() => setSearchParams({...searchParams, range: 'tag'})}>全文</label>
+        <select
+          value={option}
+          onChange={(e) => setSearchParams({ ...searchParams, option: e.target.value as SearchOption })}>
+          <option value='forward'>前方</option>
+          <option value='partial'>部分</option>
+          <option value='exact'>完全</option>
+          <option value='regex'>正規</option>
+        </select>
+        <select
+          value={range}
+          onChange={(e) => setSearchParams({ ...searchParams, range: e.target.value as SearchRange })}>
+          <option value='both'>単語+訳語</option>
+          <option value='word'>単語</option>
+          <option value='equivalent'>訳語</option>
+          <option value='equivalentTag'>品詞</option>
+          <option value='tag'>タグ</option>
+          <option value='full'>全文</option>
+        </select>
       </fieldset>
-    </form> 
+    </form>
   )
 }
 

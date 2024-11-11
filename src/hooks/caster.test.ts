@@ -32,6 +32,9 @@ describe('searchRange', () => {
   it('equivalent', () => {
     expect(castAsSearchRange('equivalent')).toStrictEqual('equivalent')
   })
+  it('equivalentTag', ()=>{
+    expect(castAsSearchRange('equivalentTag')).toStrictEqual('equivalentTag')
+  })
   it('tag', () => {
     expect(castAsSearchRange('tag')).toStrictEqual('tag')
   })

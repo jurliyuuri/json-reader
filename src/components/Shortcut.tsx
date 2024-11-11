@@ -15,7 +15,6 @@ const Shortcut = ({ setReadUrl }: { setReadUrl: React.Dispatch<React.SetStateAct
     <Button lang='takan' setReadUrl={setReadUrl} />
     <Button lang='bhat' setReadUrl={setReadUrl} />
     <Button lang='pmcf' setReadUrl={setReadUrl} />
-    <br />
     <Button lang='calass' setReadUrl={setReadUrl} />
     <Button lang='vic' setReadUrl={setReadUrl} />
     <Button lang='ʁa:v' setReadUrl={setReadUrl} />

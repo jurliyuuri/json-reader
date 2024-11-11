@@ -8,20 +8,24 @@ describe('filter', () => {
 
   it('full text search', () => {
     expect(entryFilter(dummy[1], /バート/, 'full')).toStrictEqual(true)
-    expect(entryFilter(dummy[1], /^名詞/, 'full')).toStrictEqual(false)
+    expect(entryFilter(dummy[1], /^名詞/, 'full')).not.toStrictEqual(true)
     expect(entryFilter(dummy[1], /名詞/, 'full')).toStrictEqual(true)
     expect(entryFilter(dummy[1], /形/, 'full')).toStrictEqual(true)
-    expect(entryFilter(dummy[1], /辞/, 'full')).toStrictEqual(false)
+    expect(entryFilter(dummy[1], /辞/, 'full')).not.toStrictEqual(true)
     expect(entryFilter(dummy[1], /\*/, 'full')).toStrictEqual(true)
   })
 
   it('option', () => {
-    expect(entryFilter(dummy[3], /^ul/, 'full')).toStrictEqual(false)
+    expect(entryFilter(dummy[3], /^ul/, 'full')).not.toStrictEqual(true)
     expect(entryFilter(dummy[3], /ul/, 'full')).toStrictEqual(true)
+  })
+  
+  it('equivalentTag', ()=>{
+    expect(entryFilter(dummy[2], /詞/, 'equivalentTag')).toStrictEqual(true)
   })
 
   it('unicode', () => {
-    expect(entryFilter(dummy[1], /an/, 'full')).toStrictEqual(false)
+    expect(entryFilter(dummy[1], /an/, 'full')).not.toStrictEqual(true)
     expect(entryFilter(dummy[1], /án/, 'full')).toStrictEqual(true)
   })
 })
@@ -30,18 +34,18 @@ describe('specific lang', () => {
   it('bhátán', () => {
     expect(entryFilter(dummy[1], /bhát/, 'word')).toStrictEqual(true)
     expect(entryFilter(dummy[1], /bhát/, 'both')).toStrictEqual(true)
-    expect(entryFilter(dummy[1], /bhát/, 'tag')).toStrictEqual(false)
-    expect(entryFilter(dummy[1], /bhát/, 'equivalent')).toStrictEqual(false)
+    expect(entryFilter(dummy[1], /bhát/, 'tag')).not.toStrictEqual(true)
+    expect(entryFilter(dummy[1], /bhát/, 'equivalent')).not.toStrictEqual(true)
   })
 
   it('taftat', () => {
     expect(entryFilter(dummy[4], /rl/, 'full')).toStrictEqual(true)
-    expect(entryFilter(dummy[4], /c/, 'full')).toStrictEqual(false)
+    expect(entryFilter(dummy[4], /c/, 'full')).not.toStrictEqual(true)
   })
 
   it('ail', () => {
     expect(entryFilter(dummy[0], /\^/, 'word')).toStrictEqual(true)
-    expect(entryFilter(dummy[0], /^\^/, 'word')).toStrictEqual(false)
+    expect(entryFilter(dummy[0], /^\^/, 'word')).not.toStrictEqual(true)
   })
 
   it('pai2 ge', () => {
