@@ -1,18 +1,18 @@
-import '@testing-library/jest-dom/vitest';
-import { cleanup } from '@testing-library/react';
-import { beforeAll, afterEach, afterAll } from 'vitest';
-import { server } from './src/mocks/node';
+import '@testing-library/jest-dom/vitest'
+import { cleanup } from '@testing-library/react'
+import { beforeAll, afterEach, afterAll } from 'vitest'
+import { server } from './src/mocks/node'
 
 beforeAll(() => {
-  server.listen();
-});
+  server.listen()
+})
 
 afterEach(() => {
-  server.resetHandlers();
+  server.resetHandlers()
   // cleanup は vite.config.ts の test.globals を true にした場合は不要
-  cleanup();
-});
+  cleanup()
+})
 
 afterAll(() => {
-  server.close();
-});
+  server.close()
+})

@@ -12,7 +12,7 @@ export default defineConfig({
     setupFiles: ['./vitest-setup.ts'],
     // スナップショットの保存先を設定
     resolveSnapshotPath: (path, extension) => {
-      return path.replace('/src/', '/__snapshots__/') + extension;
+      return path.replace('/src/', '/__snapshots__/') + extension
     },
   },
   publicDir: false,

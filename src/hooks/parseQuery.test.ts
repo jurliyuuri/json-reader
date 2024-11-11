@@ -1,6 +1,6 @@
-import queryString from 'query-string';
-import { describe, expect, it } from 'vitest';
-import parseQuery from './parseQuery';
+import queryString from 'query-string'
+import { describe, expect, it } from 'vitest'
+import parseQuery from './parseQuery'
 
 describe('parseQuery', () => {
   it('no query', () => {
