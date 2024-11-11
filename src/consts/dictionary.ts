@@ -28,20 +28,6 @@ export type Word = {
 
 export type Dictionary = Word[]
 
-export const isDictionary = (words: Dictionary): words is Dictionary => {
-  return (
-    typeof words[0] === 'object' &&
-    typeof words[0].entry === 'object' &&
-    typeof words[0].entry.id === 'number' &&
-    typeof words[0].entry.form === 'string' &&
-    Array.isArray(words[0].translations) &&
-    Array.isArray(words[0].tags) &&
-    Array.isArray(words[0].contents) &&
-    Array.isArray(words[0].variations) &&
-    Array.isArray(words[0].relations)
-  )
-}
-
 export const sampleDictionary: Dictionary = [
   {
     entry: {
