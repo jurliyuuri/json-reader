@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import queryString from 'query-string'
 import { useState, useEffect } from 'react'
-import './App.css'
 import { useNavigate } from 'react-router-dom'
+import './App.css'
 import Entry from './components/Entry/Entry'
 import Search from './components/Search/Search'
 import Share from './components/Share/Share'
@@ -28,7 +28,7 @@ function App() {
 
   const navigate = useNavigate()
   useEffect(() => {
-    navigate(`/?${queryString.stringify({url: readUrl, ...searchParams})}`)
+    navigate(`/json-reader/?${queryString.stringify({url: readUrl, ...searchParams})}`)
   }, [readUrl, searchParams, navigate])
 
   return (
