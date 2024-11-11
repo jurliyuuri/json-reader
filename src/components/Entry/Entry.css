@@ -12,11 +12,11 @@
 }
 
 .word-infos {
-  margin: 5px 0px 0px 0px;
+  margin: 5px 0 0 0;
 }
 
 .word-info {
-  margin: 0px;
+  margin: 0;
   line-height: 1.6;
   text-align: justify;
   white-space: pre-line;
@@ -33,6 +33,7 @@
 }
 
 .nonbordered-info {
+  margin-top: 3px;
   font-size: 70%;
   color: #4d91b3;
   display: block;
@@ -41,6 +42,11 @@
 .variation-title {
   font-size: 70%;
   color: #4d91b3;
+  margin-right: 1em;
+}
+
+.variation-title::before {
+  content: '> ';
 }
 
 .outer {

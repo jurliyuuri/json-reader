@@ -47,7 +47,7 @@ const Variations = ({ word }: { word: Word }) => {
   return (
     <div className='word-infos'>
       {word.variations.map(({ title, form }) =>
-        <div className='word-info' key={`${title}${form}`}><span className='variation-title'>&gt; {title}</span>{form}</div>
+        <div className='word-info' key={`${title}${form}`}><span className='variation-title'>{title}</span>{form}</div>
       )}
     </div>
   )
