@@ -35,7 +35,6 @@ const Share = ({ readUrl, searchParams }: Props) => {
       <div style={boxStyle}><div className='popup'>&#x2714;Copied!</div></div>
       <img src={image} className='share-image' onClick={handleClick} />
       {urlToCopy && <span> url: <a href={urlToCopy}>{urlToCopy}</a></span>}
-
     </div>
   )
 }

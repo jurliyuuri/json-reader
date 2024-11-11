@@ -1,10 +1,30 @@
 # OTM-JSON Online Reader
 OTM-JSON形式のファイルをhuman readableな形式で表示するアプリ。
 
-GitHub Pagesで公開されたjsonファイルが読めます。
+HTTPS形式で公開されているjsonファイルが読めます。
 
-version1で定義されたプロパティだけを表示しています。
+version1で定義されたプロパティだけを表示しています。（version1で定義されていないプロパティは動作に影響しません）
 
-version1で定義されていないプロパティがあっても動作しますが、`entry`, `translations`, `tags`, `variations`, `contents`, `relations`の各プロパティの内部にVersion1で定義されていないプロパティがあると動作しません。
+OTM-JSON形式については[こちら](https://wiki.conlinguistics.jp/OTM-JSON)を参照してください。
 
-OTM-JSON形式については[こちら](https://conlinguistics.fandom.com/ja/wiki/OTM-JSON)を参照してください。
+## Getting Started
+Tool Manager [Volta](https://volta.sh/) を利用する．
+
+Windowsの人はWSLを使用すること。
+- 環境構築
+```
+# install Volta
+$ curl https://get.volta.sh | bash
+
+# install pnpm
+$ volta install pnpm
+
+# install dependencies
+$ pnpm install
+```
+
+- サイトの確認
+```
+$ pnpm dev
+```
+で`http://localhost:5173`にサーバーが立ち上がる。
