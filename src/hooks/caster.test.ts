@@ -41,10 +41,10 @@ describe('searchRange', () => {
   it('full', () => {
     expect(castAsSearchRange('full')).toStrictEqual('full')
   })
-  it('other'), () => {
+  it('other', () => {
     expect(castAsSearchRange('hoge')).toStrictEqual('both')
-  }
-  it('no range'), () => {
+  })
+  it('no range', () => {
     expect(castAsSearchRange('')).toStrictEqual('both')
-  }
+  })
 })

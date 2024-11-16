@@ -19,19 +19,19 @@ const getDictionary = async (readUrl: string) => {
   if (readUrl === '') return sampleDictionary
   const fetchDictionary = await fetch(readUrl)
   if (!fetchDictionary.ok) {
-    return Promise.reject('Network Response was not OK')
+    return Promise.reject(new Error('Network Response was not OK'))
   }
   const dirtyDictionary = await fetchDictionary.json()
   if (dirtyDictionary.words == null) {
-    return Promise.reject('No words property')
+    return Promise.reject(new Error('No words property'))
   }
   if (dirtyDictionary.words.length === 0) {
     // [] can be cast to Dictionary (=Words[]), so isDictionary([]) returns true
-    return Promise.reject('Empty words property')
+    return Promise.reject(new Error('Empty words property'))
   }
   if (!isDictionary(dirtyDictionary.words)) {
     // NOTICE: isDictionary check only 0th item (in order to reduce amount of calculation)
-    return Promise.reject('Invalid dictionary structure')
+    return Promise.reject(new Error('Invalid dictionary structure'))
   }
   return dirtyDictionary.words as Dictionary
 }
