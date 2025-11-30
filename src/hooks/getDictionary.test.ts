@@ -8,27 +8,27 @@ describe('Error check', () => {
   })
 
   it('empty readUrl', async () => {
-    expect(getDictionary('')).toStrictEqual(new Promise(() => sampleDictionary))
+     await expect(getDictionary('')).resolves.toStrictEqual(sampleDictionary)
   })
   it('not OK', async () => {
     vi.spyOn(global, 'fetch').mockImplementationOnce(async () => new Response(null, { status: 404 }))
-    expect(getDictionary('fuga')).rejects.toThrowError('not OK')
+    await expect(getDictionary('fuga')).rejects.toThrowError('not OK')
   })
   it('No words property', async () => {
     vi.spyOn(global, 'fetch').mockImplementationOnce(async () => new Response(JSON.stringify({'property': []})))
-    expect(getDictionary('fuga')).rejects.toThrowError('No words property')
+    await expect(getDictionary('fuga')).rejects.toThrowError('No words property')
   })
   it('Empty words property', async () => {
     vi.spyOn(global, 'fetch').mockImplementationOnce(async () => new Response(JSON.stringify({'words': []})))
-    expect(getDictionary('fuga')).rejects.toThrowError('Empty words property')  
+    await expect(getDictionary('fuga')).rejects.toThrowError('Empty words property')  
   })
   it('Invalid dictionary structure', async () => {
     vi.spyOn(global, 'fetch').mockImplementationOnce(async () => new Response(JSON.stringify({'words': ['']})))
-    expect(getDictionary('https://example.com/')).rejects.toThrowError('Invalid dictionary structure')
+    await expect(getDictionary('https://example.com/')).rejects.toThrowError('Invalid dictionary structure')
   })
   it('Valid dictionary', async () => {
     vi.spyOn(global, 'fetch').mockImplementationOnce(async () => new Response(JSON.stringify({'words': sampleDictionary})))
-    expect(getDictionary('https://example.com/')).toStrictEqual(new Promise(() => sampleDictionary))
+    await expect(getDictionary('https://example.com/')).resolves.toStrictEqual(sampleDictionary)
   })
 })
 
