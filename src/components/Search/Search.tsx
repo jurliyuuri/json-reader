@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Dispatch, FormEventHandler, MouseEventHandler, SetStateAction, useState } from 'react'
 import { SearchOption } from '@/consts/searchOption'
 import { SearchParams } from '@/consts/searchParams'
 import { SearchRange } from '@/consts/searchRange'
@@ -6,18 +6,18 @@ import './Search.css'
 
 type Props = {
   searchParams: SearchParams,
-  setSearchParams: React.Dispatch<React.SetStateAction<SearchParams>>
+  setSearchParams: Dispatch<SetStateAction<SearchParams>>
 }
 
 const Search = ({ searchParams, setSearchParams }: Props) => {
   const { text, option, range } = searchParams
   const [query, setQuery] = useState(text)
 
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     setSearchParams({ ...searchParams, text: query })
   }
-  const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+  const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault()
     setSearchParams({ ...searchParams, text: query })
   }

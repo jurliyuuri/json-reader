@@ -1,9 +1,9 @@
-import React from 'react'
 import { Language, dictionaryData } from '@/consts/dictionaryData'
+import { Dispatch, SetStateAction } from 'react'
 
-const Button = ({ lang, setReadUrl }: { lang: Language, setReadUrl: React.Dispatch<React.SetStateAction<string>> }) => {
+const Button = ({ lang, setReadUrl }: { lang: Language, setReadUrl: Dispatch<SetStateAction<string>> }) => {
   return (
-    <button onClick={() => { setReadUrl(dictionaryData[lang]['url']) }}>
+    <button onClick={() => { setReadUrl(dictionaryData[lang].url) }}>
       {lang}
     </button>
   )
