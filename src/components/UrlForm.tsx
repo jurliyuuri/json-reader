@@ -1,9 +1,9 @@
 import queryString from 'query-string'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 
 type Props = {
   readUrl: string,
-  setReadUrl: React.Dispatch<React.SetStateAction<string>>
+  setReadUrl: Dispatch<SetStateAction<string>>
 }
 
 const UrlForm = ({ readUrl, setReadUrl }: Props) => {
@@ -16,7 +16,7 @@ const UrlForm = ({ readUrl, setReadUrl }: Props) => {
   return (
     <div>
       <input id='url' value={inputUrl} size={35}
-        placeholder='https://piyo.github.io/lang/dict.json'
+        placeholder='https://example.com/lang/dict.json'
         onChange={(e) => { setInputUrl(e.target.value) }}
         onKeyDown={(e) => { if (e.key === 'Enter') setUrls(inputUrl) }} />
       <button value='load' onClick={() => setUrls(inputUrl)}>load</button>
