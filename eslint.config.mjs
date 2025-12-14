@@ -5,7 +5,7 @@ import reactReflesh from 'eslint-plugin-react-refresh';
 import unusedImport from 'eslint-plugin-unused-imports';
 import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
+export default [
   {
     // files: ["src/**/*.ts", "src/**/*.tsx", "**/*.mjs"],
     ignores: ['docs/**', 'node_modules/**', 'coverage/**'],
@@ -67,4 +67,4 @@ export default tseslint.config(
       ],
     },
   },
-);
+];
